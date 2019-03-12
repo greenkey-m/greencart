@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<access component="com_greencart">
+	<section name="component">
+		<action name="core.admin" title="JACTION_ADMIN" description="JACTION_ADMIN_COMPONENT_DESC" />
+		<action name="core.options" title="JACTION_OPTIONS" description="JACTION_OPTIONS_COMPONENT_DESC" />
+		<action name="core.manage" title="JACTION_MANAGE" description="JACTION_MANAGE_COMPONENT_DESC" />
+		<action name="core.export" title="COM_GREENCART_EXPORT_DATA" description="COM_GREENCART_EXPORT_DATA_DESC" />
+		<action name="core.import" title="COM_GREENCART_IMPORT_DATA" description="COM_GREENCART_IMPORT_DATA_DESC" />
+		<action name="core.batch" title="COM_GREENCART_USE_BATCH" description="COM_GREENCART_USE_BATCH_DESC" />
+		<action name="core.version" title="COM_GREENCART_EDIT_VERSIONS" description="COM_GREENCART_EDIT_VERSIONS_DESC" />
+		<action name="core.create" title="JACTION_CREATE" description="JACTION_CREATE_COMPONENT_DESC" />
+		<action name="core.delete" title="JACTION_DELETE" description="JACTION_DELETE_COMPONENT_DESC" />
+		<action name="core.edit" title="JACTION_EDIT" description="JACTION_EDIT_COMPONENT_DESC" />
+		<action name="core.edit.state" title="JACTION_EDITSTATE" description="JACTION_ACCESS_EDITSTATE_DESC" />
+		<action name="core.edit.own" title="JACTION_EDITOWN" description="JACTION_EDITOWN_COMPONENT_DESC" />
+		<action name="core.edit.created_by" title="COM_GREENCART_EDIT_CREATED_BY" description="COM_GREENCART_EDIT_CREATED_BY_DESC" />
+		<action name="core.edit.created" title="COM_GREENCART_EDIT_CREATED_DATE" description="COM_GREENCART_EDIT_CREATED_DATE_DESC" />
+		<action name="look.access" title="COM_GREENCART_LOOKS_ACCESS" description="COM_GREENCART_LOOKS_ACCESS_DESC" />
+		<action name="site.looks.access" title="COM_GREENCART_LOOKS_ACCESS_SITE" description="COM_GREENCART_LOOKS_ACCESS_SITE_DESC" />
+		<action name="look.batch" title="COM_GREENCART_LOOKS_BATCH_USE" description="COM_GREENCART_LOOKS_BATCH_USE_DESC" />
+		<action name="look.create" title="COM_GREENCART_LOOKS_CREATE" description="COM_GREENCART_LOOKS_CREATE_DESC" />
+		<action name="look.dashboard_add" title="COM_GREENCART_LOOKS_DASHBOARD_ADD" description="COM_GREENCART_LOOKS_DASHBOARD_ADD_DESC" />
+		<action name="look.delete" title="COM_GREENCART_LOOKS_DELETE" description="COM_GREENCART_LOOKS_DELETE_DESC" />
+		<action name="look.edit" title="COM_GREENCART_LOOKS_EDIT" description="COM_GREENCART_LOOKS_EDIT_DESC" />
+		<action name="look.edit.created_by" title="COM_GREENCART_LOOKS_EDIT_CREATED_BY" description="COM_GREENCART_LOOKS_EDIT_CREATED_BY_DESC" />
+		<action name="look.edit.created" title="COM_GREENCART_LOOKS_EDIT_CREATED_DATE" description="COM_GREENCART_LOOKS_EDIT_CREATED_DATE_DESC" />
+		<action name="look.edit.own" title="COM_GREENCART_LOOKS_EDIT_OWN" description="COM_GREENCART_LOOKS_EDIT_OWN_DESC" />
+		<action name="look.edit.state" title="COM_GREENCART_LOOKS_EDIT_STATE" description="COM_GREENCART_LOOKS_EDIT_STATE_DESC" />
+		<action name="look.version" title="COM_GREENCART_LOOKS_EDIT_VERSION" description="COM_GREENCART_LOOKS_EDIT_VERSION_DESC" />
+		<action name="look.export" title="COM_GREENCART_LOOKS_EXPORT" description="COM_GREENCART_LOOKS_EXPORT_DESC" />
+		<action name="look.import" title="COM_GREENCART_LOOKS_IMPORT" description="COM_GREENCART_LOOKS_IMPORT_DESC" />
+		<action name="look.submenu" title="COM_GREENCART_LOOKS_SUBMENU" description="COM_GREENCART_LOOKS_SUBMENU_DESC" />
+	</section>
+	<section name="look">
+		<action name="look.edit" title="COM_GREENCART_LOOKS_EDIT" description="COM_GREENCART_LOOKS_EDIT_DESC" />
+		<action name="look.edit.own" title="COM_GREENCART_LOOKS_EDIT_OWN" description="COM_GREENCART_LOOKS_EDIT_OWN_DESC" />
+		<action name="look.edit.state" title="COM_GREENCART_LOOKS_EDIT_STATE" description="COM_GREENCART_LOOKS_EDIT_STATE_DESC" />
+		<action name="look.edit.created_by" title="COM_GREENCART_LOOKS_EDIT_CREATED_BY" description="COM_GREENCART_LOOKS_EDIT_CREATED_BY_DESC" />
+		<action name="look.edit.created" title="COM_GREENCART_LOOKS_EDIT_CREATED_DATE" description="COM_GREENCART_LOOKS_EDIT_CREATED_DATE_DESC" />
+		<action name="look.create" title="COM_GREENCART_LOOKS_CREATE" description="COM_GREENCART_LOOKS_CREATE_DESC" />
+		<action name="look.delete" title="COM_GREENCART_LOOKS_DELETE" description="COM_GREENCART_LOOKS_DELETE_DESC" />
+		<action name="look.access" title="COM_GREENCART_LOOKS_ACCESS" description="COM_GREENCART_LOOKS_ACCESS_DESC" />
+		<action name="look.version" title="COM_GREENCART_LOOKS_EDIT_VERSION" description="COM_GREENCART_LOOKS_EDIT_VERSION_DESC" />
+	</section>
+</access>

@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<metadata>
+	<layout title="COM_GREENCART_MENU_LOOKS_TITLE" option="COM_GREENCART_MENU_LOOKS_OPTION">
+		<message>
+			<![CDATA[COM_GREENCART_MENU_LOOKS_DESC]]>
+		</message>
+	</layout>
+</metadata>

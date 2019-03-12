@@ -2,12 +2,12 @@
 <extension type="component" version="3.8" method="upgrade">
 	<name>COM_GREENCART</name>
 	<creationDate>04.03.2019</creationDate>
-	<author>matt</author>
-	<authorEmail>your@email.com</authorEmail>
-	<authorUrl>http://your.url.com</authorUrl>
+	<author>Matvey</author>
+	<authorEmail>info@greenkey.ru</authorEmail>
+	<authorUrl>https://greenkey.ru</authorUrl>
 	<copyright>A copyright</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
-	<version>1.0</version>
+	<version>0.0.1</version>
 	<description>COM_GREENCART_XML_DESCRIPTION</description>
 
 	<!-- Scripts to run on installation -->

@@ -2,10 +2,10 @@
 /**
  * @package    greencart
  *
- * @author     matt <your@email.com>
+ * @author     matt <info@greenkey.ru>
  * @copyright  A copyright
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
- * @link       http://your.url.com
+ * @link       https://greenkey.ru
  */
 
 use Joomla\CMS\MVC\Controller\BaseController;
@@ -20,4 +20,14 @@ defined('_JEXEC') or die;
  */
 class GreencartControllerGreencart extends BaseController
 {
+	public function formyml() {
+		// Get the model of Get Contacts
+		//$model = $this->getModel('geocontacts', 'GeocontactModel');
+
+		// Create new items in DB
+		//$model->newItems();
+
+		echo "forming!";
+	}
+
 }

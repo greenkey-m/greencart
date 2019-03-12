@@ -2,10 +2,10 @@
 /**
  * @package    greencart
  *
- * @author     matt <your@email.com>
+ * @author     matt <info@greenkey.ru>
  * @copyright  A copyright
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
- * @link       http://your.url.com
+ * @link       https://greenkey.ru
  */
 
 use Joomla\CMS\MVC\Model\ListModel;

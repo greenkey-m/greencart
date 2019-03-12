@@ -47,7 +47,10 @@
       <paths name="triumf40">
         <serverdata>
           <mappings>
-            <mapping local="$PROJECT_DIR$" web="/" />
+            <mapping deploy="/www/triumf40.ru/administrator/components/com_greencart" local="$PROJECT_DIR$" web="/" />
+            <mapping deploy="/www/triumf40.ru/administrator/components/com_greencart" local="$PROJECT_DIR$/admin" web="/" />
+            <mapping deploy="/www/triumf40.ru/media/com_greencart" local="$PROJECT_DIR$/media" web="/" />
+            <mapping deploy="/www/triumf40.ru/components/com_greencart" local="$PROJECT_DIR$/site" web="/" />
           </mappings>
         </serverdata>
       </paths>

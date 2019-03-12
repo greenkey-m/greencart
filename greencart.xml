@@ -1,81 +1,105 @@
-<?xml version="1.0" encoding="utf-8" ?>
-<extension type="component" version="3.8" method="upgrade">
+<?xml version="1.0" encoding="utf-8"?>
+<extension type="component" version="3.2" method="upgrade">
 	<name>COM_GREENCART</name>
-	<creationDate>04.03.2019</creationDate>
+	<creationDate>12th марта, 2019</creationDate>
 	<author>Matvey</author>
 	<authorEmail>info@greenkey.ru</authorEmail>
 	<authorUrl>https://greenkey.ru</authorUrl>
-	<copyright>A copyright</copyright>
-	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
-	<version>0.0.1</version>
-	<description>COM_GREENCART_XML_DESCRIPTION</description>
+	<copyright>Copyright (C) 2019. All Rights Reserved</copyright>
+	<license>GNU/GPL Version 2 or later - http://www.gnu.org/licenses/gpl-2.0.html</license>
+	<version>0.0.2</version>
+	<description><![CDATA[
+		<h1>Greencart (v.0.0.2)</h1>
+		<div style="clear: both;"></div>
+		<p>Full desc</p>
+		<p>Created by <a href="https://greenkey.ru" target="_blank">Matvey</a><br /><small>Development started 12th марта, 2019</small></p>
+	]]></description>
 
-	<!-- Scripts to run on installation -->
-	<scriptfile>script.php</scriptfile>
-
-	<!-- Runs on install -->
+	<!-- Runs on install; New in Joomla 1.5 -->
 	<install>
 		<sql>
-			<file driver="mysql" charset="utf8">sql/install/mysql/mysql.sql</file>
+			<file driver="mysql" charset="utf8">sql/install.mysql.utf8.sql</file>
 		</sql>
 	</install>
 
-	<!-- Runs on update -->
+	<!-- Runs on uninstall; New in Joomla 1.5 -->
+	<uninstall>
+		<sql>
+			<file driver="mysql" charset="utf8">sql/uninstall.mysql.utf8.sql</file>
+		</sql>
+	</uninstall>
+
+	<!-- Runs on install/uninstall/update; New in Joomla 2.5 -->
+	<scriptfile>script.php</scriptfile>
+
+	<media destination="com_greencart" folder="media">
+		<filename>index.html</filename>
+		<folder>js</folder>
+		<folder>css</folder>
+		<folder>images</folder>
+	</media>
+
+	<!-- Update Schema; New in Joomla 2.5 -->
 	<update>
 		<schemas>
-			<schemapath type="mysql">sql/updates/mysql</schemapath>
+			<schemapath type="mysql">sql/updates/mysql/</schemapath>
 		</schemas>
 	</update>
 
-	<!-- Media files -->
-	<media folder="media/com_greencart" destination="com_greencart">
-		<folder>css</folder>
-		<folder>images</folder>
-		<folder>js</folder>
-	</media>
-
-	<!-- Front-end files -->
-	<files folder="components/com_greencart">
-		<filename>greencart.php</filename>
+	<files folder="site">
 		<filename>controller.php</filename>
+		<filename>index.html</filename>
+		<filename>router.php</filename>
+		<filename>greencart.php</filename>
+		<filename>greencart.php</filename>
+		<filename>router.php</filename>
+		<filename>controller.php</filename>
+		<folder>assets</folder>
+		<folder>helpers</folder>
 		<folder>controllers</folder>
-		<folder>language</folder>
-		<folder>layouts</folder>
 		<folder>models</folder>
 		<folder>views</folder>
+		<folder>layouts</folder>
 	</files>
 
-	<!-- Back-end files -->
-	<administration>
-		<!-- Menu entries -->
-		<menu view="greencart">COM_GREENCART</menu>
-		<submenu>
-			<!--
-				Note that all & must be escaped to &amp; for the file to be valid
-				XML and be parsed by the installer
-			-->
-			<menu link="option=com_greencart">COM_GREENCART</menu>
-		</submenu>
+	<languages folder="site">
+		<language tag="en-GB">language/en-GB/en-GB.com_greencart.ini</language>
+		<language tag="en-GB">language/en-GB/en-GB.com_greencart.sys.ini</language>
+	</languages>
 
-		<!-- Core files -->
-		<files folder="administrator/components/com_greencart">
+	<administration>
+		<menu>COM_GREENCART_MENU</menu>
+		<submenu>
+			<!-- Instead of link you can specify individual link attributes -->
+			<menu option="com_greencart" view="looks">COM_GREENCART_MENU_LOOKS</menu>
+		</submenu>
+		<files folder="admin">
+			<filename>access.xml</filename>
+			<filename>config.xml</filename>
+			<filename>controller.php</filename>
+			<filename>index.html</filename>
 			<filename>greencart.php</filename>
 			<filename>access.xml</filename>
 			<filename>config.xml</filename>
 			<filename>controller.php</filename>
-			<filename>LICENSE.txt</filename>
+			<filename>greencart.php</filename>
+			<folder>assets</folder>
 			<folder>controllers</folder>
 			<folder>helpers</folder>
-			<folder>language</folder>
 			<folder>models</folder>
 			<folder>sql</folder>
 			<folder>tables</folder>
 			<folder>views</folder>
+			<folder>layouts</folder>
 		</files>
-	</administration>
 
-	<!-- Update servers -->
+		<languages folder="admin">
+			<language tag="en-GB">language/en-GB/en-GB.com_greencart.ini</language>
+			<language tag="en-GB">language/en-GB/en-GB.com_greencart.sys.ini</language>
+		</languages>
+
+	</administration>
 	<updateservers>
-		<server type="extension" priority="1" name="greencart">https://www.example.com/greencart.xml</server>
+		<server type="extension" enabled="1" element="com_greencart" name="Greencart">https://greencart.greenkey.ru/greencart.xml</server>
 	</updateservers>
 </extension>

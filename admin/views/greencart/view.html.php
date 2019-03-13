@@ -32,6 +32,10 @@ class GreencartViewGreencart extends JViewLegacy
 	 */
 	function display($tpl = null)
 	{
+		// Получить материалы из
+		$this->items = $this->get('ItemsCart');
+
+
 		// Assign data to the view
 		$this->icons			= $this->get('Icons');
 		$this->contributors		= GreencartHelper::getContributors();

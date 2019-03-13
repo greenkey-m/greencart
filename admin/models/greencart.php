@@ -218,4 +218,25 @@ class GreencartModelGreencart extends JModelList
 		}
 		return $icons;
 	}
+
+	public function getItemsCart()
+	{
+		// Get article items from DB?
+		// Create a new query object.
+		$db    = $this->getDbo();
+		$query = $db->getQuery(true);
+
+		// Construct the query
+		$query->select('c.id, c.title')
+			->from('#__content AS c')
+			->group('c.id, c.title')
+			->order('c.title');
+
+		// Setup the query
+		$db->setQuery($query);
+
+		// Return the result
+		return $db->loadObjectList();
+	}
+
 }

@@ -22,4 +22,10 @@
 defined('_JEXEC') or die('Restricted access');
 
 ?>
-idontknow whattafuck
+idontknow whattafuck!
+
+<?php foreach ($this->items as $i => $item) :
+
+echo $item->title."<br/>";
+
+endforeach; ?>

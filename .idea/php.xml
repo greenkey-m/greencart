@@ -3,6 +3,7 @@
   <component name="PhpIncludePathManager">
     <include_path>
       <path value="D:/OpenServer/domains/triumf40.ru.now" />
+      <path value="/media/matt/EXCHANGE/Openserver/domains/joomla.local" />
     </include_path>
   </component>
 </project>

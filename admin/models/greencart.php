@@ -227,10 +227,17 @@ class GreencartModelGreencart extends JModelList
 		$query = $db->getQuery(true);
 
 		// Construct the query
-		$query->select('c.id, c.title')
+		$query->select('c.id, c.title, c.alias')
 			->from('#__content AS c')
 			->group('c.id, c.title')
 			->order('c.title');
+
+		$query->select('ct.tag_id');
+		$query->join('INNER', '#__contentitem_tag_map AS ct ON ct.content_item_id = c.id');
+
+		$query->where($db->quoteName('ct.tag_id') . ' = 2');
+		$query->where($db->quoteName('ct.type_id') . ' = 1');
+		$query->where($db->quoteName('state') . ' = 1');
 
 		// Setup the query
 		$db->setQuery($query);
@@ -240,3 +247,4 @@ class GreencartModelGreencart extends JModelList
 	}
 
 }
+

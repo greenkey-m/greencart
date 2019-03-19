@@ -2,7 +2,7 @@
 <project version="4">
   <component name="WebServers">
     <option name="servers">
-      <webServer id="99ff56f3-d564-417b-bd1f-ae3cb2a4e46c" name="triumf40" url="http://triumf40.ru">
+      <webServer id="99ff56f3-d564-417b-bd1f-ae3cb2a4e46c" name="triumf40 (project level)" url="http://triumf40.ru">
         <fileTransfer host="triumf40.ru" port="21">
           <advancedOptions>
             <advancedOptions dataProtectionLevel="Private" passiveMode="true" shareSSLContext="true" />

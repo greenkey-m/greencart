@@ -21,6 +21,8 @@
 // No direct access to this file
 defined('_JEXEC') or die('Restricted access');
 
+JModelLegacy::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_content/models', 'ContentModel');
+
 /**
  * Greencart Model
  */
@@ -242,8 +244,19 @@ class GreencartModelGreencart extends JModelList
 		// Setup the query
 		$db->setQuery($query);
 
+
+		// Get an instance of the generic articles model
+		$model = JModelLegacy::getInstance('Articles', 'ContentModel', array('ignore_request' => true));
+
+		$model->setState('filter.tag_id', 2);
+
+		// Retrieve Content
+		$items = $model->getItems();
+		return $items;
+
+
 		// Return the result
-		return $db->loadObjectList();
+		//return $db->loadObjectList();
 	}
 
 }

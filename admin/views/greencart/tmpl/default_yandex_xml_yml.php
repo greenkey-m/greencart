@@ -44,6 +44,7 @@ $doc->loadXML('<?xml version="1.0" encoding="UTF-8"?><yml_catalog date="2019-03-
 
     foreach ($this->items as $i => $item) :
         echo $item->id." - ".$item->title." - ".$item->tag_id."<br/>";
+        //print_r($item);
 
 
 	    $offer = $doc->createElement('offer');
@@ -59,7 +60,7 @@ $doc->loadXML('<?xml version="1.0" encoding="UTF-8"?><yml_catalog date="2019-03-
 
     endforeach;
 
-    $doc->save("../tmp.xml")
+    $doc->save("../administrator/components/com_greencart/tmp.xml")
 
 /*<offer id="66x4x100" available="true">
                 <url>https://triumf40.ru/production/greenhouses/triumf-sphere?l=4&amp;s=100</url>

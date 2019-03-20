@@ -223,6 +223,7 @@ class GreencartModelGreencart extends JModelList
 
 	public function getItemsCart()
 	{
+		/*
 		// Get article items from DB?
 		// Create a new query object.
 		$db    = $this->getDbo();
@@ -243,15 +244,31 @@ class GreencartModelGreencart extends JModelList
 
 		// Setup the query
 		$db->setQuery($query);
-
+		*/
 
 		// Get an instance of the generic articles model
 		$model = JModelLegacy::getInstance('Articles', 'ContentModel', array('ignore_request' => true));
 
-		$model->setState('filter.tag_id', 2);
+		// Register FieldsHelper
+		JLoader::register('FieldsHelper', JPATH_ADMINISTRATOR . '/components/com_fields/helpers/fields.php');
+
+		$model->setState('list.select', 'a.id, a.title, a.alias, a.introtext, a.fulltext, a.checked_out, a.checked_out_time, ' .
+			' a.access, a.created, a.created_by, a.created_by_alias, a.featured, a.state, a.publish_up, a.publish_down');
+
+		$model->setState('filter.published', 1);
+
+		$model->setState('load_tags', true);
+
+		$model->setState('filter.tag', 2);
 
 		// Retrieve Content
 		$items = $model->getItems();
+
+		foreach ($items as $item) {
+			$fields = FieldsHelper::getFields('com_content.article', $item, true);
+			$item->fields = $fields;
+		}
+
 		return $items;
 
 

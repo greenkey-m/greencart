@@ -30,7 +30,7 @@ $doc->loadXML('<?xml version="1.0" encoding="UTF-8"?><yml_catalog date="2019-03-
 	'<currency id="RUR" rate="1"/>'.
 	'</currencies>'.
 	'<categories>'.
-	'<category id="2">Теплицы из поликарбоната</category>'.
+	'<category id="2">Теплицы и каркасы</category>'.
 	'<category id="11">Навесы</category>'.
 	'<category id="12">Для дачи</category>'.
 	'</categories>'.
@@ -43,24 +43,317 @@ $doc->loadXML('<?xml version="1.0" encoding="UTF-8"?><yml_catalog date="2019-03-
     $offers = $doc->getElementsByTagName('offers')[0];
 
     foreach ($this->items as $i => $item) :
-        echo $item->id." - ".$item->title." - ".$item->tag_id."<br/>";
-        //print_r($item);
+        echo $item->id." - ".$item->title." - "."<br/>";
 
+		// получаем массив длин
+	    $l = explode(",", $item->fields[3]->value);
 
-	    $offer = $doc->createElement('offer');
+		// получаем массив с данными по ценам для калькулятора
+	    $c = explode(",", $item->fields[4]->value);
 
-	    $offer->setAttribute("id", $item->id);
-	    $offer->setAttribute("available", "true");
+	    // получаем адрес папки с изображениями
+	    $f = "/images/".$item->fields[8]->value;
 
-	    $offers->appendChild($offer);
+	    $parray = array();
+	    $carray = array();
+	    foreach ($c as $cit) {
+		    $x = explode("x", trim($cit));
+		    $parray[$x[0]] = $x;
+	    }
+	    if (!isset($parray[0])) {
+		    $parray[0][0] = 0;
+		    $parray[0][1] = 0;
+		    $parray[0][2] = 0;
+		    $parray[0][3] = 0;
+		    $parray[0][4] = 0;
+		    $parray[0][5] = 0;
+	    }
+	    $minln = 0;
+	    foreach ($l as $lit) {
+		    $lit = trim($lit);
+		    if ($minln == 0) {
+			    $minln = $lit;
+		    } else {
+			    if ($minln > $lit) $minln = $lit;
+		    }
 
-	    $element = $doc->createElement('url', 'https://triumf40.ru/production/greenhouses/'.$item->alias.'?l=4&amp;s=100');
-	    $offer->appendChild($element);
+		    if (isset($parray[$lit])) {
+			    $carray[$lit] = $parray[$lit];
+		    } else {
+			    // Откатывать назад, пока не найдется существующая запись
+			    // Тогда к ней прибавить разницу в длине / 2 умноженную на цены сегмента, которые записаны в 0 индексе.
+			    $x = ($lit - $prevs) / 2;
+			    $carray[$lit][0] = $lit;
+			    $carray[$lit][1] = $carray[$prevs][1] + $x * $parray[0][1];
+			    $carray[$lit][2] = $carray[$prevs][2] + $x * $parray[0][2];
+			    $carray[$lit][3] = $carray[$prevs][3] + $x * $parray[0][3];
+			    $carray[$lit][4] = $carray[$prevs][4] + $x * $parray[0][4];
+			    $carray[$lit][5] = $carray[$prevs][5] + $x * $parray[0][5];
+			    //TODO нулевой индекс лучше наверное отдельно разместить
+		    }
+		    $prevs = trim($lit);
+	    }
 
+	    $icons = json_decode($item->fields[11]->rawvalue);
+	    switch ($icons->icons0->ico) {
+	    	case "t08": $thick = "0,8"; break;
+		    case "t10": $thick = "1,0"; break;
+		    case "t12": $thick = "1,2"; break;
+		    case "t15": $thick = "1,5"; break;
+		    default: $thick = "1,0";
+	    }
+
+		//print_r($carray);
+	    //print_r($item->fields[13]->value);
+        //print_r($f);
+		echo "<hr/>";
+
+        foreach ($carray as $len) {
+
+        	if ($len[1] > 0) {
+		        // Create for step 100
+		        $offer = $doc->createElement('offer');
+		        $offer->setAttribute("id", $item->id."x".$len[0]."x100");
+		        $offer->setAttribute("available", "true");
+		        $offers->appendChild($offer);
+
+		        $element = $doc->createElement('url', 'https://triumf40.ru/production/greenhouses/'.str_replace("triumf-","",$item->alias).'?l='.$len[0].'&amp;s=100');
+		        $offer->appendChild($element);
+
+		        $element = $doc->createElement('price', $len[1]);
+		        $offer->appendChild($element);
+
+		        $element = $doc->createElement('currencyId', 'RUR');
+		        $offer->appendChild($element);
+
+		        $element = $doc->createElement('categoryId', '2');
+		        $offer->appendChild($element);
+
+		        $imgs = scandir("..".$f);
+		        foreach ($imgs as $img) {
+			        if (($img <> ".")&($img <> "..")&($img <> 'index.html')) {
+				        $element = $doc->createElement('picture', "https://triumf40.ru".$f."/".$img);
+				        $offer->appendChild($element);
+			        }
+		        }
+
+		        $element = $doc->createElement('store', 'true');
+		        $offer->appendChild($element);
+		        $element = $doc->createElement('delivery', 'true');
+		        $offer->appendChild($element);
+
+		        $element = $doc->createElement('name', $item->title.($len[0] > 2 ? (' '.$len[0].'м (шаг 100см)'):("")));
+		        $offer->appendChild($element);
+
+		        $element = $doc->createElement('vendor', 'Триумф');
+		        $offer->appendChild($element);
+		        $element = $doc->createElement('vendorCode', $item->alias.($len[0] > 2 ? ('-'.$len[0].'х100'):("")));
+		        $offer->appendChild($element);
+
+		        $element = $doc->createElement('model', $item->alias.($len[0] > 2 ? ('-'.$len[0].'х100'):("")));
+		        $offer->appendChild($element);
+
+		        $element = $doc->createElement('description', $item->fields[12]->value);
+		        $offer->appendChild($element);
+
+		        $element = $doc->createElement('sales_notes', 'Оплата при доставке товара');
+		        $offer->appendChild($element);
+
+		        $element = $doc->createElement('manufacturer_warranty', 'true');
+		        $offer->appendChild($element);
+
+		        $element = $doc->createElement('param', "теплица");
+		        $element->setAttribute("name", "Тип");
+		        $offer->appendChild($element);
+		        $element = $doc->createElement('param', "поликарбонат");
+		        $element->setAttribute("name", "Покрытие");
+		        $offer->appendChild($element);
+		        $element = $doc->createElement('param', "профильная труба");
+		        $element->setAttribute("name", "Тип каркаса");
+		        $offer->appendChild($element);
+
+		        if (strpos($item->title, "алюминиевая") === false) {
+			        $element = $doc->createElement('param', "есть");
+			        $element->setAttribute("name", "Оцинкованный каркас");
+			        $offer->appendChild($element);
+		        }
+		        $element = $doc->createElement('param', $item->fields[13]->value);
+		        $element->setAttribute("name", "Сечение каркаса");
+		        $offer->appendChild($element);
+		        $element = $doc->createElement('param', "есть");
+		        $element->setAttribute("name", "Наличие форточки");
+		        $offer->appendChild($element);
+
+		        $element = $doc->createElement('param', $len[0]);
+		        $element->setAttribute("name", "Длина");
+		        $element->setAttribute("unit", "метр");
+		        $offer->appendChild($element);
+		        //$element = $doc->createElement('param', "3");
+		        //$element->setAttribute("name", "Ширина");
+		        //$element->setAttribute("unit", "метр");
+		        //$offer->appendChild($element);
+		        //$element = $doc->createElement('param', "2,1");
+		        //$element->setAttribute("name", "Высота");
+		        //$element->setAttribute("unit", "метр");
+		        //$offer->appendChild($element);
+		        $element = $doc->createElement('param', "100");
+		        $element->setAttribute("name", "Шаг между дугами");
+		        $element->setAttribute("unit", "см");
+		        $offer->appendChild($element);
+
+		        $element = $doc->createElement('param', $thick);
+		        $element->setAttribute("name", "Толщина стенки трубы");
+		        $element->setAttribute("unit", "мм");
+		        $offer->appendChild($element);
+
+		        $element = $doc->createElement('param', "есть");
+		        $element->setAttribute("name", "Наличие дверей");
+		        $offer->appendChild($element);
+		        $element = $doc->createElement('param', "опционально");
+		        $element->setAttribute("name", "Грунтозацепы");
+		        $offer->appendChild($element);
+		        $element = $doc->createElement('param', "опционально");
+		        $element->setAttribute("name", "Брус");
+		        $offer->appendChild($element);
+		        $element = $doc->createElement('param', "опционально");
+		        $element->setAttribute("name", "Внутренняя перегородка");
+		        $offer->appendChild($element);
+		        $element = $doc->createElement('param', "опционально");
+		        $element->setAttribute("name", "Боковая форточка");
+		        $offer->appendChild($element);
+		        $element = $doc->createElement('param', "опционально");
+		        $element->setAttribute("name", "Механизм открывания форточки");
+		        $offer->appendChild($element);
+		        $element = $doc->createElement('param', "опционально");
+		        $element->setAttribute("name", "Монтаж");
+		        $offer->appendChild($element);
+
+	        }
+
+        	if ($len[2] > 0) {
+		        // Create for step 65
+		        $offer = $doc->createElement('offer');
+		        $offer->setAttribute("id", $item->id."x".$len[0]."x65");
+		        $offer->setAttribute("available", "true");
+		        $offers->appendChild($offer);
+
+		        $element = $doc->createElement('url', 'https://triumf40.ru/production/greenhouses/'.str_replace("triumf-","",$item->alias).'?l='.$len[0].'&amp;s=65');
+		        $offer->appendChild($element);
+
+		        $element = $doc->createElement('price', $len[2]);
+		        $offer->appendChild($element);
+
+		        $element = $doc->createElement('currencyId', 'RUR');
+		        $offer->appendChild($element);
+
+		        $element = $doc->createElement('categoryId', '2');
+		        $offer->appendChild($element);
+
+		        $imgs = scandir("..".$f);
+		        foreach ($imgs as $img) {
+			        if (($img <> ".")&($img <> "..")&($img <> 'index.html')) {
+				        $element = $doc->createElement('picture', "https://triumf40.ru".$f."/".$img);
+				        $offer->appendChild($element);
+			        }
+		        }
+
+		        $element = $doc->createElement('store', 'true');
+		        $offer->appendChild($element);
+		        $element = $doc->createElement('delivery', 'true');
+		        $offer->appendChild($element);
+
+		        $element = $doc->createElement('name', $item->title.' '.$len[0].'м (шаг 65см)');
+		        $offer->appendChild($element);
+
+		        $element = $doc->createElement('vendor', 'Триумф');
+		        $offer->appendChild($element);
+		        $element = $doc->createElement('vendorCode', $item->alias.($len[0] > 2 ? ('-'.$len[0].'х65'):("")));
+		        $offer->appendChild($element);
+
+		        $element = $doc->createElement('model', $item->alias.'-'.$len[0].'х65');
+		        $offer->appendChild($element);
+
+		        $element = $doc->createElement('description', $item->fields[12]->value);
+		        $offer->appendChild($element);
+
+		        $element = $doc->createElement('sales_notes', 'Оплата при доставке товара');
+		        $offer->appendChild($element);
+
+		        $element = $doc->createElement('manufacturer_warranty', 'true');
+		        $offer->appendChild($element);
+
+		        $element = $doc->createElement('param', "теплица");
+		        $element->setAttribute("name", "Тип");
+		        $offer->appendChild($element);
+		        $element = $doc->createElement('param', "поликарбонат");
+		        $element->setAttribute("name", "Покрытие");
+		        $offer->appendChild($element);
+		        $element = $doc->createElement('param', "профильная труба");
+		        $element->setAttribute("name", "Тип каркаса");
+		        $offer->appendChild($element);
+		        if (strpos($item->title, "алюминиевая") === false) {
+			        $element = $doc->createElement('param', "есть");
+			        $element->setAttribute("name", "Оцинкованный каркас");
+			        $offer->appendChild($element);
+		        }
+		        $element = $doc->createElement('param', $item->fields[13]->value);
+		        $element->setAttribute("name", "Сечение каркаса");
+		        $offer->appendChild($element);
+		        $element = $doc->createElement('param', "есть");
+		        $element->setAttribute("name", "Наличие форточки");
+		        $offer->appendChild($element);
+
+		        $element = $doc->createElement('param', $len[0]);
+		        $element->setAttribute("name", "Длина");
+		        $element->setAttribute("unit", "метр");
+		        $offer->appendChild($element);
+		        //$element = $doc->createElement('param', "3");
+		        //$element->setAttribute("name", "Ширина");
+		        //$element->setAttribute("unit", "метр");
+		        //$offer->appendChild($element);
+		        //$element = $doc->createElement('param', "2,1");
+		        //$element->setAttribute("name", "Высота");
+		        //$element->setAttribute("unit", "метр");
+		        //$offer->appendChild($element);
+		        $element = $doc->createElement('param', "65");
+		        $element->setAttribute("name", "Шаг между дугами");
+		        $element->setAttribute("unit", "см");
+		        $offer->appendChild($element);
+
+		        $element = $doc->createElement('param', $thick);
+		        $element->setAttribute("name", "Толщина стенки трубы");
+		        $element->setAttribute("unit", "мм");
+		        $offer->appendChild($element);
+
+		        $element = $doc->createElement('param', "есть");
+		        $element->setAttribute("name", "Наличие дверей");
+		        $offer->appendChild($element);
+		        $element = $doc->createElement('param', "опционально");
+		        $element->setAttribute("name", "Грунтозацепы");
+		        $offer->appendChild($element);
+		        $element = $doc->createElement('param', "опционально");
+		        $element->setAttribute("name", "Брус");
+		        $offer->appendChild($element);
+		        $element = $doc->createElement('param', "опционально");
+		        $element->setAttribute("name", "Внутренняя перегородка");
+		        $offer->appendChild($element);
+		        $element = $doc->createElement('param', "опционально");
+		        $element->setAttribute("name", "Боковая форточка");
+		        $offer->appendChild($element);
+		        $element = $doc->createElement('param', "опционально");
+		        $element->setAttribute("name", "Механизм открывания форточки");
+		        $offer->appendChild($element);
+		        $element = $doc->createElement('param', "опционально");
+		        $element->setAttribute("name", "Монтаж");
+		        $offer->appendChild($element);
+	        }
+
+        }
 
     endforeach;
 
     $doc->save("../administrator/components/com_greencart/tmp.xml")
+	//$doc->save("../triumf.xml")
 
 /*<offer id="66x4x100" available="true">
                 <url>https://triumf40.ru/production/greenhouses/triumf-sphere?l=4&amp;s=100</url>
@@ -89,7 +382,6 @@ $doc->loadXML('<?xml version="1.0" encoding="UTF-8"?><yml_catalog date="2019-03-
                 <param name="Форточки">есть</param>
                 <param name="Грунтозацепы">опционально</param>
                 <param name="Брус">опционально</param>
-                <param name="Грунтозацепы">опционально</param>
                 <param name="Внутренняя перегородка">опционально</param>
                 <param name="Боковая форточка">опционально</param>
                 <param name="Механизм открывания форточки">опционально</param>
